@@ -1,36 +1,27 @@
-import reactLogo from '../../assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import UserDataContext from '../../modules/UserDataContext';
+import User from '../../modules/User';
+import BattlePage from '../BattlePage/BattlePage';
+import HomePage from '../Home/Home';
 
 function App() {
 
+  const [userData, setUserData] = useState(
+    User.loadUserData() || new User(0, 0, [])
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={reactLogo} className="App-logo" alt="react logo" />
-        <img src={viteLogo} className="App-logo" alt="vite logo" />
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a
-          className="App-link"
-          href="https://vitejs.dev/guide/features.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Vite Docs
-        </a>
-      </header>
-    </div>
-  )
-}
+    <UserDataContext.Provider value={{ userData, setUserData }}>
+      <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />}  />
+            <Route path="/battle" element={<BattlePage />} />
+          </Routes>
+      </Router>
+    </UserDataContext.Provider>
+  );
+  }
 
 export default App

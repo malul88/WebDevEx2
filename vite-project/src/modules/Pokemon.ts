@@ -29,6 +29,7 @@ class Pokemon {
     }
     // Add a method to get the win/loss ratio
     getWinLossRatio() {
+        if (this.losses === 0) return this.wins;
         return this.wins / this.losses;
     }
 
