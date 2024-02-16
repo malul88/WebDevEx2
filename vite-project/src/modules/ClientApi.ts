@@ -7,7 +7,7 @@ class ApiClient {
   
     async getPokemonById(id: number = 3) {
       try {
-        const response = await fetch(`${this.baseURL}/ability/${id}`);
+        const response = await fetch(`${this.baseURL}/pokemon/${id}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
