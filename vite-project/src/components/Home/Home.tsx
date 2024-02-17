@@ -3,11 +3,14 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserDataContext from '../../modules/UserDataContext';
 import Pokemon from '../../modules/Pokemon';
+import PokemonList from '../Home/PokemonList';
+import PokemonDetails from './PokemonDetails';
 
 
 const HomePage: React.FC = () => {
   const { userData } = useContext(UserDataContext);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  
   const navigate = useNavigate();
 
   const navigateToBattlePage = () => {
@@ -20,35 +23,18 @@ const HomePage: React.FC = () => {
     setSelectedPokemon(prev => prev === pokemon ? null : pokemon);
   };
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <div>
-        <h1>My Pokemon</h1>
-        {userData.pokemons.map((pokemon: Pokemon, index: number) => (
-          <div key={index} onClick={() => handlePokemonClick(pokemon)}>
-            <img src={pokemon.imageUrl} alt={pokemon.name} />
-            <p>{pokemon.name}</p>
-          </div>
-        ))}
+    <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', padding: '0px' }}>
+      <h3>My Pokemon</h3>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <PokemonList pokemonData={userData.pokemons} handlePokemonClick={handlePokemonClick} />
+        {selectedPokemon && (
+          <PokemonDetails pokemon={selectedPokemon} />
+        )}
       </div>
-      {selectedPokemon && (
-        <div>
-          <h2>{selectedPokemon.name} Stats</h2>
-          <p>HP: {selectedPokemon.hp}</p>
-            <p>Attack: {selectedPokemon.attack}</p>
-            <p>Defense: {selectedPokemon.defense}</p>
-            <p>Speed: {selectedPokemon.speed}</p>
-            <p>Type: {selectedPokemon.type}</p>
-            <p>Height: {selectedPokemon.height}</p>
-            <p>Weight: {selectedPokemon.weight}</p>
-            <p>Win/Loss Ratio: {selectedPokemon.getWinLossRatio()}</p>
-          {/* Display other stats here */}
-        </div>
-      )}
       <div>
-        <button onClick={navigateToBattlePage}>Go to Battle Page</button>
-        <div style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
-          <p>Wins: {userData.wins}</p>
-          <p>Losses: {userData.losses}</p>
+        <button onClick={navigateToBattlePage}>Lets Battle!</button>
+        <div style={{ border: '1px solid black', padding: '5px', marginTop: '5px' }}>
+          <p>you won {userData.wins} out of {userData.wins + userData.losses} battles {userData.losses !== 0 ? (userData.wins / userData.losses) * 100 : (userData.wins > 0 ? 100 : 0)}%</p>
         </div>
       </div>
     </div>

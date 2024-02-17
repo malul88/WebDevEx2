@@ -41,7 +41,7 @@ class ApiClient {
 
     async get3RandomPokemon() {
         // Get 3 random pokemon from the API using random ids
-        const randomIds = Array.from({length: 3}, () => Math.floor(Math.random() * 898));
+        const randomIds = Array.from({length: 3}, () => Math.floor(Math.random() * 386));
         const pokemonData = await Promise.all(randomIds.map(id => this.getPokemonById(id)));
         return pokemonData;
     }
