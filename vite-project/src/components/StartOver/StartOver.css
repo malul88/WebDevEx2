@@ -1,0 +1,16 @@
+.start-over {
+    position: absolute;
+    width: auto;
+    top: 0;
+    right: 0;
+    margin: 20px;
+    border: 1px solid transparent;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
