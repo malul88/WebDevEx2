@@ -2,7 +2,7 @@
     position: absolute;
     left: 0;
     top: 4%;
-    margin-left: 4%; 
+    margin-left: 10%; 
     width: 12%;
     height: 70%;
     display: flex;
@@ -10,10 +10,17 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-color: darkgrey;
+    border: 2px solid darkgrey;
+    box-shadow: 0 0 10px rgba(15, 15, 15, 0.1);
+    transition: border-color 0.25s;
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-right: 20px;
     margin-left: 5%; 
+  }
+
+  .left-column:hover {
+    border-color: #646cff;
   }

@@ -5,9 +5,11 @@ import Pokemon from '../../modules/Pokemon';
 import PokemonList from '../PokemonList/PokemonList';
 import PokemonDetails from '../PokemonDetails/PokemonDetails';
 import { StartOver } from '../StartOver/StartOver';
+import { LetsBattle } from '../LetsBattle/LetsBattle';
 import './Home.css';
 import { ClipLoader } from 'react-spinners';
 import UserContext from '../../modules/UserDataContext';
+
 
 
 const HomePage: React.FC = () => {
@@ -75,9 +77,7 @@ const HomePage: React.FC = () => {
           <PokemonDetails pokemon={selectedPokemon} />
         )}
       </div>
-      <div>
-        <button className='lets-battle'  onClick={navigateToBattlePage}>Lets Battle!</button>
-      </div>
+      <LetsBattle handleLetsBattle={navigateToBattlePage}/>
       <div className='user-stats'>
           <h2>My Stats</h2>
           {user && <p>you won {user.wins} out of {user.wins + user.losses} battles {user.losses !== 0 ? (user.wins / user.losses) * 100 : (user.wins > 0 ? 100 : 0)}%</p>}      </div>

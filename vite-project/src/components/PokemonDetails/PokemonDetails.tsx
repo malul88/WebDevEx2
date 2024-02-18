@@ -19,12 +19,10 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
             <p>Height: {pokemon.height}</p>
             <p>Weight: {pokemon.weight}</p>
         </div>
-        <div style={{ marginTop: '20px'}}>
-            <div style={{marginTop: '50px', marginLeft:'20px' ,padding: '5px', border: '1px solid black' }}>
-                <p>Wins: {pokemon.wins}</p>
-                <p>Losses: {pokemon.losses}</p>
-                <p>{pokemon.getWinLossRatio()} % Win Rate</p>
-            </div>
+        <div className='win-loss'>
+            <p>Wins: {pokemon.wins}</p>
+            <p>Losses: {pokemon.losses}</p>
+            <p>{pokemon.getWinLossRatio()} % Win Rate</p>
         </div>
     </div>
   );

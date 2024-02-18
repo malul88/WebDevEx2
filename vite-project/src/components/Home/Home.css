@@ -18,26 +18,5 @@
 } 
 
 /* Design the button to be at the bottom of the page in */
-.lets-battle{
-    position: absolute;
-    width: auto;
-    bottom: 0;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
-}
+
 
