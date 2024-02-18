@@ -64,6 +64,20 @@ class Pokemon {
         this.losses++;
     }
 
+    static savePokemons(name :string, pokemons: Pokemon[]) {
+        const pokemons_json = pokemons.map((pokemon) => pokemon.toJson());
+        localStorage.setItem(name, JSON.stringify(pokemons_json));
+    }
+
+    static loadPokemons(name: string) {
+        const pokemons_json = localStorage.getItem(name);
+        if (pokemons_json) {
+            const parsedData = JSON.parse(pokemons_json);
+            return parsedData.map((pokemon: any) => Pokemon.fromJson(pokemon));
+        }
+        return null;
+    }
+
 
 
 }

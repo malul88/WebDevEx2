@@ -1,0 +1,13 @@
+.user-stats {
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(233, 233, 233, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 20%;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+} 

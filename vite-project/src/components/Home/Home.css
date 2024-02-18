@@ -1,21 +1,7 @@
 
 /* put it down the page */
 
-.user-stats {
-    border-radius: 10px;
-    align-items: center;
-    align-self: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
-    width: 20%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-} 
+
 
 /* Design the button to be at the bottom of the page in */
 

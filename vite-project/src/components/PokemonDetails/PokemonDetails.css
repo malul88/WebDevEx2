@@ -1,3 +1,5 @@
+
+/* add animation in and out */
 .poke-details {
     display: flex;
     flex-direction: row;
@@ -14,7 +16,12 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(158, 158, 158, 0.1);
     padding: 40px;
+    transition: all 0.5s;
+    transform: translate(0);
+
 }
+
+
 
 .win-loss {
     display: flex;

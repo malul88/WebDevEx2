@@ -5,6 +5,7 @@ type UserInterface = {
     wins: number;
     losses: number;
     pokemons: Pokemon[];
+    opponentPokemons: Pokemon[];
     };
 
 // User class that implements the UserInterface
@@ -12,6 +13,7 @@ class User implements UserInterface{
   wins: number = 0;
   losses: number = 0;
   pokemons: Pokemon[] = [];
+  opponentPokemons: Pokemon[] = [];
 
   constructor(wins: number, losses: number, pokemons: Pokemon[]) {
     this.wins = wins;
@@ -30,7 +32,6 @@ class User implements UserInterface{
   static async get3RandomPokemon() {
     console.log("getting 3 random pokemon ");
     // called by 
-    console.log(`Called by: ${new Error().stack}`)
     const pokemons = await ApiClient.getInstance().get3RandomPokemon().then((pokemons) => {
         return pokemons.map(
             (pokemon) =>

@@ -1,0 +1,19 @@
+.battle-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: auto;
+    border-radius: 10px;
+    border-color: darkgrey;
+    box-shadow: 0 0 10px rgba(158, 158, 158, 0.1);
+    padding: 20px;
+    transition: all 0.5s;
+    transform: translate(0);
+
+    
+}

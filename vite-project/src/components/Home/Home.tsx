@@ -9,6 +9,8 @@ import { LetsBattle } from '../LetsBattle/LetsBattle';
 import './Home.css';
 import { ClipLoader } from 'react-spinners';
 import UserContext from '../../modules/UserDataContext';
+import { PLayerStats } from '../PlayerStats/PlayerStats';
+import User from '../../modules/User';
 
 
 
@@ -18,7 +20,7 @@ const HomePage: React.FC = () => {
 
   const { user, setUser } = useContext(UserContext);
   const [pokemons, setPokemons] = useState<Pokemon[] | null>(null);
-  
+
   // Set loading to false when user data is available
   useEffect(() => {
     console.log(`HomePage useEffect called user: ${user}`);
@@ -28,12 +30,18 @@ const HomePage: React.FC = () => {
       setPokemons(user.pokemons);
     }
   }
-  , [user, pokemons]);
+    , [user, pokemons]);
 
   // navigator hook
   const navigate = useNavigate();
 
-  const navigateToBattlePage = () => {
+  const handleLetsBattle = async () => {
+    if (user) {
+      // get 3 random pokemons and store the, in local for opponent
+      const opponentPokemons = await User.get3RandomPokemon();
+      user.opponentPokemons = opponentPokemons;
+      Pokemon.savePokemons("opponentPokemons", opponentPokemons);
+    }
     navigate('/battle');
   };
 
@@ -64,23 +72,21 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <h2>My Pokemon</h2>
-      <StartOver handleStartOver={handleStartOver}/>
+      <StartOver handleStartOver={handleStartOver} />
       <div>
-        {loading  || !user || !pokemons ? (
-          <ClipLoader color={'#000000'} loading={loading} size={150} />          
+        {loading || !user || !pokemons ? (
+          <ClipLoader color={'#000000'} loading={loading} size={150} />
         ) : (
           <PokemonList pokemonData={pokemons} handlePokemonClick={handlePokemonClick} />
         )}
       </div>
       <div>
-      {selectedPokemon && (
+        {selectedPokemon && (
           <PokemonDetails pokemon={selectedPokemon} />
         )}
       </div>
-      <LetsBattle handleLetsBattle={navigateToBattlePage}/>
-      <div className='user-stats'>
-          <h2>My Stats</h2>
-          {user && <p>you won {user.wins} out of {user.wins + user.losses} battles {user.losses !== 0 ? (user.wins / user.losses) * 100 : (user.wins > 0 ? 100 : 0)}%</p>}      </div>
+      <LetsBattle handleLetsBattle={handleLetsBattle} />
+      {user && <PLayerStats user={user} />}
     </div>
   );
 };
