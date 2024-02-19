@@ -33,24 +33,44 @@ class User implements UserInterface{
     console.log("getting 3 random pokemon ");
     // called by 
     const pokemons = await ApiClient.getInstance().get3RandomPokemon().then((pokemons) => {
-        return pokemons.map(
-            (pokemon) =>
-            new Pokemon(
+        return pokemons.map((pokemon) =>{
+            // Extract base stats
+             let hp: number = 0 ,attack: number = 0, defense: number = 0, speed: number = 0, specialAttack: number = 0, specialDefense: number = 0;
+            for (let i = 0; i < pokemon.stats.length; i++) {
+                if (pokemon.stats[i].stat.name === "hp") {
+                    hp = pokemon.stats[i].base_stat;
+                }else if (pokemon.stats[i].stat.name === "attack") {
+                    attack = pokemon.stats[i].base_stat;
+                }else if (pokemon.stats[i].stat.name === "defense") {
+                    defense = pokemon.stats[i].base_stat;
+                }else if (pokemon.stats[i].stat.name === "speed") {
+                    speed = pokemon.stats[i].base_stat;
+                }else if (pokemon.stats[i].stat.name === "special-attack") {
+                    specialAttack = pokemon.stats[i].base_stat;
+                }else if (pokemon.stats[i].stat.name === "special-defense") {    
+                    specialDefense = pokemon.stats[i].base_stat;
+                }
+                }
+            console.log("pokemon-----------------");
+            console.log("hp: ", hp, "attack: ", attack, "defense: ", defense, "speed: ", speed, "specialAttack: ", specialAttack, "specialDefense: ", specialDefense);
+            return new Pokemon(
                 pokemon.name,
                 pokemon.id,
-                pokemon.stats.hp,
-                pokemon.stats.attack,
-                pokemon.stats.defense,
-                pokemon.stats.speed,
+                hp,
+                attack,
+                defense,
+                speed,
+                specialAttack,
+                specialDefense,
                 pokemon.types[0].type.name,
                 pokemon.height,
                 pokemon.weight,
                 pokemon.sprites.front_default,
                 0,
                 0
-            )
-        );
+            );
         });
+    }); 
     return pokemons;
   }
 

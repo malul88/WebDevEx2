@@ -11,13 +11,16 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
     <div className='poke-details'>
         <div>
             <h4>{pokemon.name}</h4>
-            <p>HP: {pokemon.hp}</p>
-            <p>Attack: {pokemon.attack}</p>
-            <p>Defense: {pokemon.defense}</p>
-            <p>Speed: {pokemon.speed}</p>
             <p>Type: {pokemon.type}</p>
             <p>Height: {pokemon.height}</p>
             <p>Weight: {pokemon.weight}</p>
+            <p>Stats:</p>
+            <p>Hp: {pokemon.hp}</p>
+            <p>Attack: {pokemon.attack}</p>
+            <p>Defense: {pokemon.defense}</p>
+            <p>Speed: {pokemon.speed}</p>
+            <p>SpecialAttack: {pokemon.specialAttack}</p>
+            <p>SpecialDefense: {pokemon.specialDefense}</p>
         </div>
         <div className='win-loss'>
             <p>Wins: {pokemon.wins}</p>
