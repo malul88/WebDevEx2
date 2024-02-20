@@ -1,3 +1,8 @@
+export type Move = {
+    name: string;
+    power: number;
+  };
+  
 
 class Pokemon {
     name: string;
@@ -14,8 +19,9 @@ class Pokemon {
     imageUrl: string;
     wins: number;
     losses: number;
+    moves: Move[];;
     
-    constructor(name: string, id: number, hp: number, attack: number, defense: number, speed: number, specialAttack: number, specialDefense: number, type: string, height: number, weight: number, imageUrl: string, wins: number, losses: number) {
+    constructor(name: string, id: number, hp: number, attack: number, defense: number, speed: number, specialAttack: number, specialDefense: number, type: string, height: number, weight: number, imageUrl: string, moves: Move[], wins: number, losses: number) {
         this.name = name;
         this.id = id;
         this.type = type;
@@ -30,6 +36,7 @@ class Pokemon {
         this.speed = speed;
         this.specialAttack = specialAttack;
         this.specialDefense = specialDefense;
+        this.moves = moves;
         }
 
     // Add a method to get the win/loss ratio
@@ -54,13 +61,14 @@ class Pokemon {
             weight: this.weight,
             imageUrl: this.imageUrl,
             wins: this.wins,
-            losses: this.losses
+            losses: this.losses,
+            moves: this.moves
         };
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static fromJson(json: any) {
-        return new Pokemon(json.name, json.id, json.hp, json.attack, json.defense, json.speed,json.specialAttack, json.specialDefense, json.type, json.height, json.weight, json.imageUrl, json.wins, json.losses);
+        return new Pokemon(json.name, json.id, json.hp, json.attack, json.defense, json.speed,json.specialAttack, json.specialDefense, json.type, json.height, json.weight, json.imageUrl, json.moves, json.wins, json.losses);
     }
 
     addWin() {

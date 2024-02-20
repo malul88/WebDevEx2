@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { BattleOverview } from "../BattleOverview/BattleOverview";
+import BattlePokeMoves from "../BattlePokeMoves/BattlePokeMoves";
 import UserContext from "../../modules/UserDataContext";
 import User from "../../modules/User";
 import Pokemon from "../../modules/Pokemon";
@@ -61,7 +62,7 @@ const BattlePage: React.FC = () => {
     if (stage === 1 && isLoaded && userPokemons && opponentPokemons) {
         return (
             <div>
-                <h1>Choose your Pokemon</h1>
+                <h2>Choose your Pokemon</h2>
                 <BattleOverview userPokes={userPokemons} opponentPokes={opponentPokemons} alredySelectedOpponentPokes={opponentSelectedPokes} alredySelectedUserPokes={userSelectedPokes} handlePokemonClick={handlePokemonClick} />
             </div>
         )
@@ -69,9 +70,10 @@ const BattlePage: React.FC = () => {
         return (
             <div>
                 <h1>Battle</h1>
-                <h2>Your Poke: {currUserPoke?.name}</h2>
-                <h2>Opponent Poke: {currOpponentPoke?.name}</h2>
-                <button onClick={() => setStage(1)}>Back</button>
+                <h5>Your Poke</h5>
+                <BattlePokeMoves pokemon={currUserPoke} opponent={currOpponentPoke} />
+                <h5>Opponent Poke</h5>
+                <BattlePokeMoves pokemon={currOpponentPoke} opponent={currUserPoke} />
             </div>
         )
     }
