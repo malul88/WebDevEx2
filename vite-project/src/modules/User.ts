@@ -87,10 +87,11 @@ class User implements UserInterface{
           }
         }
 
-      const randomMoves = getRandomMoves(pokemon.moves);
-      console.log("random moves: ", randomMoves);
-      const movesArray = await createMovesArray(randomMoves);
-      console.log(movesArray);     
+      //const randomMoves = getRandomMoves(pokemon.moves);
+      //console.log("random moves: ", randomMoves);
+      //const movesArray = await createMovesArray(randomMoves);
+      //console.log(movesArray);    
+      const movesNames: Move[] = pokemon.moves.map((move: any) => {move.move.name,0}); 
       return new Pokemon(
           pokemon.name,
           pokemon.id,
@@ -104,7 +105,7 @@ class User implements UserInterface{
           pokemon.height,
           pokemon.weight,
           pokemon.sprites.front_default,
-          movesArray,
+          movesNames,
           0,
           0
         );

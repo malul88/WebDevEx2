@@ -1,5 +1,8 @@
+import Pokemon from "./Pokemon";
+
 class ApiClient {
     baseURL: string = 'https://pokeapi.co/api/v2/';
+    static damageRelations: string[] = [ "double_damage_to", "half_damage_to",  "no_damage_to"];
 
 
     constructor(baseURL: string = 'https://pokeapi.co/api/v2/') {
@@ -45,6 +48,46 @@ class ApiClient {
         const randomIds = Array.from({length: 3}, () => Math.floor(Math.random() * 386));
         const pokemonData = await Promise.all(randomIds.map(id => this.getPokemonById(id)));
         return pokemonData;
+    }
+
+    async getTF(userType: string, opponentType: string) {
+      try{
+        const response = await fetch(`${this.baseURL}type/${userType}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        ApiClient.damageRelations.forEach((relation) => {
+          if(data.damage_relations[relation].map((type: any) => type.name).includes(opponentType)){
+            if (relation === "double_damage_to"){
+              return 2;
+            }
+            else if (relation === "half_damage_to"){
+              return 0.5;
+            }
+            else if (relation === "no_damage_to"){
+              return 1;
+            }
+            
+          }
+        });
+        return 1;
+
+      }
+      catch(error){
+        console.error('Error fetching TF data')
+        console.error(error);
+        return null;
+      }
+
+      
+
+      
+
+
+        
+
     }
   }
   
