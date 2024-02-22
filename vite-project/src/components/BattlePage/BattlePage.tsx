@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BattleOverview } from "../BattleOverview/BattleOverview";
 import BattlePokeMoves from "../BattlePokeMoves/BattlePokeMoves";
@@ -8,9 +8,6 @@ import ApiClient from "../../modules/ClientApi";
 import { Move } from "../../modules/Pokemon";
 import { BattleResults } from "../BattleResults/BattleResults";
 import { FinalResult } from "../FinalResult/FinalResult";
-import { set } from "firebase/database";
-// import { useNavigate } from "react-router-dom";
-// import UserDataContext from "../../modules/UserDataContext";
 
 
 const BattlePage: React.FC = () => {
@@ -18,7 +15,7 @@ const BattlePage: React.FC = () => {
     const { user } = useContext(UserContext);
     const [battlePlayed, setBattlePlayed] = useState<number>(0);
     const [battleWon, setBattleWon] = useState<number>(0);
-    const [userPokemons, setUserPokemons] = useState<Pokemon[] | null >(null);
+    const [userPokemons, setUserPokemons] = useState<Pokemon[] | null>(null);
     const [userSelectedPokes, setUserSelectedPokes] = useState<Pokemon[]>([]);
     const [opponentSelectedPokes, setOpponentSelectedPokes] = useState<Pokemon[]>([]);
     const [currUserPoke, setCurrUserPoke] = useState<Pokemon | null>(null);
@@ -33,8 +30,8 @@ const BattlePage: React.FC = () => {
     const [isWinner, setIsWinner] = useState<boolean>(false);
     const navigate = useNavigate();
     //const [battleResult, setBattleResult] = useState<number | null>(null);
-    
-    const getRandomMoves = (moves: Move[] | undefined, count: number ): Move[] => {
+
+    const getRandomMoves = (moves: Move[] | undefined, count: number): Move[] => {
         // Shuffle moves array and select the first 4 moves
         if (!moves) {
             return [];
@@ -44,12 +41,12 @@ const BattlePage: React.FC = () => {
     };
 
     const calculateTotalPower = (power: number, attack: number | undefined, oppDefense: number | undefined, tf: number): number => {
-        if( attack === undefined || oppDefense === undefined)
+        if (attack === undefined || oppDefense === undefined)
             return 0;
         return (power + attack) * tf - oppDefense;
     };
 
-    const handlePokemonClick = async(pokemon: Pokemon) => {
+    const handlePokemonClick = async (pokemon: Pokemon) => {
         if (userSelectedPokes.length < 3) {
             setUserSelectedPokes([...userSelectedPokes, pokemon]);
         }
@@ -76,7 +73,7 @@ const BattlePage: React.FC = () => {
         else {
             console.log('opponent pokemons not loaded');
             throw new Error('opponent pokemons not loaded');
-        }        
+        }
         setStage(2);
 
     }
@@ -90,7 +87,7 @@ const BattlePage: React.FC = () => {
 
     const handleUserMoveSelection = (move: Move) => {
         setUserSelectedMove(move);
-        
+
         // Randomly select opponent's move
         const opponentMove = getRandomMoves(randomOpponentMoves, 1)[0];
         handleOpponentMoveSelection(opponentMove);
@@ -111,10 +108,15 @@ const BattlePage: React.FC = () => {
                 setBattlePlayed(battlePlayed + 1);
                 user?.addPokeemonLoss(currUserPoke?.name);
             }
-    }, 7000);
+        }, 7000);
     }
-    
+
     useEffect(() => {
+        /* 
+        Check if the battle is over
+        Update user data and pokemon data
+        if the battle is over, display the final result and navigate to home page
+        */
         console.log(`battleWon: ${battleWon}`);
         console.log(`battlePlayed: ${battlePlayed}`);
         if (battlePlayed === 3) {
@@ -132,7 +134,7 @@ const BattlePage: React.FC = () => {
             setTimeout(() => {
                 navigate('/');
             }, 3000);
-            
+
         } else if (battlePlayed === 2 && battleWon === 2) {
             user?.addWin();
             user?.saveUserData();
@@ -161,17 +163,18 @@ const BattlePage: React.FC = () => {
     }, [battlePlayed]);
 
 
-    
+
     const handleOpponentMoveSelection = (move: Move) => {
 
         setOpponentSelectedMove(move);
-    
+
         // Calculate and set battle result
         //setBattleResult(userMovePower + (opponentMove ? opponentMove.power : 0));
     };
 
 
     if (stage === 1 && isLoaded && userPokemons && opponentPokemons) {
+        // display pokemon selection
         return (
             <div>
                 <h2>Choose your Pokemon</h2>
@@ -179,15 +182,16 @@ const BattlePage: React.FC = () => {
             </div>
         )
     } else if (stage === 2 && isLoaded) {
+        // display Selected pokemon and moves
         return (
             <div>
                 <h1>Battle</h1>
-                <BattlePokeMoves pokemon={currOpponentPoke} onMoveSelected={handleOpponentMoveSelection} selectedMoves={randomOpponentMoves} isOpponent={true}/>
-                
+                <BattlePokeMoves pokemon={currOpponentPoke} onMoveSelected={handleOpponentMoveSelection} selectedMoves={randomOpponentMoves} isOpponent={true} />
+
                 {opponentSelectedMove && userSelectedMove && userTF && opponentTF && (
-                    <BattleResults opponentSelectedMove={opponentSelectedMove} userSelectedMove={userSelectedMove} opponentTotalDamage= {calculateTotalPower(opponentSelectedMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF)} userTotalDamage={calculateTotalPower(userSelectedMove.power, currUserPoke?.attack, currOpponentPoke?.defense, userTF)} />
+                    <BattleResults opponentSelectedMove={opponentSelectedMove} userSelectedMove={userSelectedMove} opponentTotalDamage={calculateTotalPower(opponentSelectedMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF)} userTotalDamage={calculateTotalPower(userSelectedMove.power, currUserPoke?.attack, currOpponentPoke?.defense, userTF)} />
                 )}
-                <BattlePokeMoves pokemon={currUserPoke} onMoveSelected={handleUserMoveSelection} selectedMoves={getRandomMoves(currUserPoke?.moves, 4)} isOpponent={false}/> 
+                <BattlePokeMoves pokemon={currUserPoke} onMoveSelected={handleUserMoveSelection} selectedMoves={getRandomMoves(currUserPoke?.moves, 4)} isOpponent={false} />
             </div>
         )
     } else if (stage === 3) {
