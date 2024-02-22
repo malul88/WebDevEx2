@@ -1,7 +1,8 @@
 import React from 'react';
+import './BattlePokeMoves.css';
 import Pokemon from '../../modules/Pokemon';
 import { Move } from '../../modules/Pokemon';
-import { useState } from 'react';
+import { useState } from 'react'; 
 
 interface BattlePokeMovesProps {
     pokemon: Pokemon | null;
@@ -21,27 +22,33 @@ const BattlePokeMoves: React.FC<BattlePokeMovesProps> = ({ pokemon, selectedMove
     };
 
     if (!pokemon || !selectedMoves) {
-        return <div>Loading...</div>;
+        return  <div> Loading ...</div>;
     }
     return (
         <div style={{display: 'flex'}}>
-            <div>
+            <div className='selected-poke'>
                 <p>{pokemon.name}</p>
                 <img
                     src={pokemon?.imageUrl}
                     alt={pokemon?.name}
-                    style={{ width: "90%", height: "90%", margin: "20px", cursor: "pointer" }}
                 />
             </div>
             <div>
-                <ul>
-                    console.log(isOpponent);
-                    {selectedMoves.map((move) => (
-                        <button key={move.name} onClick={() => handleMoveSelection(move)}>
-                                {move.name} ({move.power}) disabled={isOpponent || selectedMove !== null}
-                        </button>
-                    ))}
-                </ul>
+                <div className='moves' >
+                    <h4>{isOpponent ? 'Opponent moves' : 'Your moves'}</h4>
+                    <ul>
+                        {selectedMoves.map((move) => (
+                            <button
+                                key={move.name}
+                                onClick={() => !isOpponent && handleMoveSelection(move)}
+                                disabled={isOpponent || selectedMove !== null}
+                                style={{ marginRight: '10px' }}
+                            >
+                                {move.name} ({move.power})
+                            </button>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>    
     );

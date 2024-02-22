@@ -80,14 +80,6 @@ class ApiClient {
         console.error(error);
         return null;
       }
-
-      
-
-      
-
-
-        
-
     }
   }
   

@@ -8,6 +8,7 @@ import Pokemon from "../../modules/Pokemon";
 import { set } from "firebase/database";
 import ApiClient from "../../modules/ClientApi";
 import { Move } from "../../modules/Pokemon";
+import { BattleResults } from "../BattleResults/BattleResults";
 // import { useNavigate } from "react-router-dom";
 // import UserDataContext from "../../modules/UserDataContext";
 // import Pokemon from "../../modules/Pokemon";
@@ -92,7 +93,18 @@ const BattlePage: React.FC = () => {
         // Randomly select opponent's move
         const opponentMove = getRandomMoves(randomOpponentMoves, 1)[0];
         handleOpponentMoveSelection(opponentMove);
-    };
+        // sleep 6 seconds
+    //     setTimeout(() => {
+    //         const oppTotoalDamage = calculateTotalPower(opponentMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF);
+    //         const userTotalDamage = calculateTotalPower(move.power, currUserPoke?.attack, currOpponentPoke?.defense, userTF);
+    //         const won = userTotalDamage > oppTotoalDamage;
+    //         // update user and its pokemons wins and losses
+    //         // if all 3 pokemons are selected then update the user and navigate to home
+    //         // else navigate to battle
+
+    // }, 6000);
+    }
+
     
     const handleOpponentMoveSelection = (move: Move) => {
 
@@ -114,21 +126,12 @@ const BattlePage: React.FC = () => {
         return (
             <div>
                 <h1>Battle</h1>
-                <h5>Your Poke</h5>
-                <BattlePokeMoves pokemon={currUserPoke} onMoveSelected={handleUserMoveSelection} selectedMoves={getRandomMoves(currUserPoke?.moves, 4)} isOpponent={false}/>
+                <BattlePokeMoves pokemon={currOpponentPoke} onMoveSelected={handleOpponentMoveSelection} selectedMoves={randomOpponentMoves} isOpponent={true}/>
                 
                 {opponentSelectedMove && userSelectedMove && userTF && opponentTF && (
-                    <div>
-                        <p>
-                            {userSelectedMove.name} ({calculateTotalPower(userSelectedMove.power, currUserPoke?.attack,currOpponentPoke?.defense, userTF)})
-                             vs {opponentSelectedMove.name} ({calculateTotalPower(opponentSelectedMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF)})
-                        </p>
-                        <p>You ????</p>
-                    </div>
+                    <BattleResults opponentSelectedMove={opponentSelectedMove} userSelectedMove={userSelectedMove} opponentTotalDamage= {calculateTotalPower(opponentSelectedMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF)} userTotalDamage={calculateTotalPower(userSelectedMove.power, currUserPoke?.attack, currOpponentPoke?.defense, userTF)} />
                 )}
-
-                <h5>Opponent Poke</h5>
-                <BattlePokeMoves pokemon={currOpponentPoke} onMoveSelected={handleOpponentMoveSelection} selectedMoves={randomOpponentMoves} isOpponent={true}/>
+                <BattlePokeMoves pokemon={currUserPoke} onMoveSelected={handleUserMoveSelection} selectedMoves={getRandomMoves(currUserPoke?.moves, 4)} isOpponent={false}/> 
             </div>
         )
     }

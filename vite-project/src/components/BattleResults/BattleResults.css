@@ -1,0 +1,74 @@
+.battle-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    position: relative;
+    width: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: #585a58;
+    border: 3px;
+    padding: 10px;
+}
+
+.opponent-results {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    position: relative;
+    width: auto;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.opponent-results.show {
+    display: flex;
+    opacity: 1;
+}
+
+.user-results {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    position: relative;
+    width: auto;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.user-results.show {
+    display: flex;
+    opacity: 1;
+}
+
+.winner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    position: relative;
+    width: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    background-color: #585a58;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+/* add show dfinition */

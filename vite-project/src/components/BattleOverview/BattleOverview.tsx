@@ -10,7 +10,7 @@ type BattleOverviewProps = {
     handlePokemonClick: (pokemon: Pokemon) => void;
 }
 
-export const BattleOverview: React.FC<BattleOverviewProps> = ({ userPokes, opponentPokes, handlePokemonClick }) => {
+export const BattleOverview: React.FC<BattleOverviewProps> = ({ userPokes, opponentPokes, handlePokemonClick, alredySelectedUserPokes, alredySelectedOpponentPokes }) => {
     const handleOpponentPokemonClick = (pokemon: Pokemon) => {
         console.log(`Opponent Pokemon ${pokemon.name} clicked`);
     }
@@ -19,7 +19,7 @@ export const BattleOverview: React.FC<BattleOverviewProps> = ({ userPokes, oppon
         <div className="battle-overview">
             <div className="opponent-pokes">
                 <h4 style={{alignSelf: 'center'}}>Opponent Pokemons</h4>
-                <BattlePokes pokemonData={opponentPokes} handlePokemonClick={handleOpponentPokemonClick}/>
+                <BattlePokes pokemonData={opponentPokes} handlePokemonClick={handleOpponentPokemonClick} disabledPokes={alredySelectedOpponentPokes} />
             </div>
             <div style={
                 {
@@ -30,7 +30,7 @@ export const BattleOverview: React.FC<BattleOverviewProps> = ({ userPokes, oppon
             </div>
             <div className="user-pokes">
                 <h4 style={{alignSelf: 'center'}}>Your Pokemons</h4>
-                <BattlePokes pokemonData={userPokes} handlePokemonClick={handlePokemonClick}/>
+                <BattlePokes pokemonData={userPokes} handlePokemonClick={handlePokemonClick} disabledPokes={alredySelectedUserPokes}/>
             </div>
         </div>
     );

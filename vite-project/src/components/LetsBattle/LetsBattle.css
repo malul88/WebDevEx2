@@ -1,8 +1,8 @@
-.lets-battle{
-    position: absolute;
+.lets-battle {
+    position: fixed;
     bottom: 0;
-    left: 45%;
-    right: 40%;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
@@ -10,8 +10,5 @@
     transition: border-color 0.25s;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
+    margin: 20px;
 }
