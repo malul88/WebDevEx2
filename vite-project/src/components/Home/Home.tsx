@@ -45,8 +45,8 @@ const HomePage: React.FC = () => {
     navigate('/battle');
   };
 
-  console.log('userData');
-  console.log(user);
+  // console.log('userData');
+  // console.log(user);
 
   // Handle pokemon click
   // Set the selected pokemon to the clicked pokemon

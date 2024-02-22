@@ -90,8 +90,9 @@ class User implements UserInterface{
       //const randomMoves = getRandomMoves(pokemon.moves);
       //console.log("random moves: ", randomMoves);
       //const movesArray = await createMovesArray(randomMoves);
-      //console.log(movesArray);    
-      const movesNames: Move[] = pokemon.moves.map((move: any) => {move.move.name,0}); 
+      console.log("movesArray: ", pokemon.moves); 
+      const movesNames: Move[] = pokemon.moves.map((move: any) => ({name: move.move.name,
+                                                                   power: 0})); 
       return new Pokemon(
           pokemon.name,
           pokemon.id,

@@ -1,21 +1,32 @@
 import React from 'react';
 import Pokemon from '../../modules/Pokemon';
+import { Move } from '../../modules/Pokemon';
+import { useState } from 'react';
 
 interface BattlePokeMovesProps {
     pokemon: Pokemon | null;
-    opponent: Pokemon | null;
-    tf: number | null;
+    selectedMoves: Move[] | null;
+    onMoveSelected: (move: Move) => void;
+    isOpponent: boolean;
   }
 
 
-const BattlePokeMoves: React.FC<BattlePokeMovesProps> = ({ pokemon, opponent, tf }) => {
-    if (!pokemon || !opponent || !tf) {
+const BattlePokeMoves: React.FC<BattlePokeMovesProps> = ({ pokemon, selectedMoves, onMoveSelected, isOpponent}) => {
+    
+    const [selectedMove, setSelectedMove] = useState<Move | null>(null);
+
+    const handleMoveSelection = (move: Move) => {
+        setSelectedMove(move);
+        onMoveSelected(move);
+    };
+
+    if (!pokemon || !selectedMoves) {
         return <div>Loading...</div>;
     }
     return (
         <div style={{display: 'flex'}}>
             <div>
-                {<p>{pokemon.name}</p>}
+                <p>{pokemon.name}</p>
                 <img
                     src={pokemon?.imageUrl}
                     alt={pokemon?.name}
@@ -23,14 +34,21 @@ const BattlePokeMoves: React.FC<BattlePokeMovesProps> = ({ pokemon, opponent, tf
                 />
             </div>
             <div>
-                {pokemon && opponent && pokemon.moves.map((move, index) => (
-                    <button key={index}>
-                        {move.name} ({(move.power + pokemon.attack) * tf - opponent.defense})
-                    </button>
-                ))}
+                <ul>
+                    console.log(isOpponent);
+                    {selectedMoves.map((move) => (
+                        <button key={move.name} onClick={() => handleMoveSelection(move)}>
+                                {move.name} ({move.power}) disabled={isOpponent || selectedMove !== null}
+                        </button>
+                    ))}
+                </ul>
             </div>
         </div>    
     );
 };
+
+
+
+
 
 export default BattlePokeMoves;
