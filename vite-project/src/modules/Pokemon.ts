@@ -42,7 +42,7 @@ class Pokemon {
     // Add a method to get the win/loss ratio
     getWinLossRatio() {
         if (this.losses === 0 && this.wins === 0) return 0;
-        return (this.wins / (this.wins + this.losses)) * 100;
+        return ((this.wins / (this.wins + this.losses)) * 100).toFixed(1);
     }
 
     // Add a method to convert pokemon to json
@@ -98,43 +98,4 @@ class Pokemon {
 }
 
 export default Pokemon;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

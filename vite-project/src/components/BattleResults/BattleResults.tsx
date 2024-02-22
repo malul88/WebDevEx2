@@ -15,8 +15,8 @@ export const BattleResults: React.FC<BattleResultsProps> = ({ opponentSelectedMo
     const [showFinalResults, setShowFinalResults] = useState(false);
 
     useEffect(() => {
-        const opponentDelay = 2000; // 1 second delay for opponent stats
-        const userDelay = 3000; // 2 seconds delay for user stats
+        const opponentDelay = 1000; // 1 second delay for opponent stats
+        const userDelay = 2000; // 2 seconds delay for user stats
 
         const opponentTimer = setTimeout(() => {
             setShowOpponentResults(true);
@@ -41,22 +41,20 @@ export const BattleResults: React.FC<BattleResultsProps> = ({ opponentSelectedMo
     return (
         <div className="battle-results">
             <div className={`opponent-results ${showOpponentResults ? "show" : ""}`}>
-                <h4>Opponent's move</h4>
-                <p>{opponentSelectedMove?.name}</p>
-                <p>Damage: {opponentTotalDamage}</p>
-            </div>
-            
-            <div className={`user-results ${showUserResults ? "show" : ""}`}>
-                <p className="arrows"> VS </p>
-                <h4>Your move</h4>
-                <p>{userSelectedMove?.name}</p>
-                <p>Damage: {userTotalDamage}</p>
-            </div>
-            {showFinalResults && (
-                <div className="winner">
+                <h4 style={{margin: "5px", fontWeight: "bold", fontSize: "20px" }}>Opponent's move</h4>
+                <p style={{ margin: "5px" }}>{opponentSelectedMove?.name}</p>
+                <p style={{ margin: "5px" }}>Damage: {opponentTotalDamage}</p>
+                </div>
+
+                <div className={`user-results ${showUserResults ? "show" : ""}`}>
+                    <p className="arrows"> VS </p>
+                    <h4 style={{margin: "5px", fontWeight: "bold", fontSize: "20px" }}>Your move</h4>
+                    <p style={{ margin: "5px" }}>{userSelectedMove?.name}</p>
+                    <p style={{ margin: "5px" }}>Damage: {userTotalDamage}</p>
+                </div>
+                <div className={`winner ${showFinalResults ? "show" : ""}`}>
                     <h2>{results}</h2>
                 </div>
-            )}
         </div>
     );
 }

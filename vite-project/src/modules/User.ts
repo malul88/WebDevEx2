@@ -164,15 +164,28 @@ class User implements UserInterface{
     return User.instance;
   }
 
-  addWin(pokemonName: string) {
+  addWin() {
     this.wins++;
+  }
+
+  addLoss() {
+    this.losses++;
+  }
+
+  addPokeemonWin(pokemonName: string) {
     const pokemon = this.pokemons.find(poke => poke.name === pokemonName);
     if (pokemon) {
       pokemon.addWin();
     }
-    this.saveUserData();
-
   }
+
+  addPokeemonLoss(pokemonName: string) {
+    const pokemon = this.pokemons.find(poke => poke.name === pokemonName);
+    if (pokemon) {
+      pokemon.addLoss();
+    }
+  }
+
 }
 
 export default User;

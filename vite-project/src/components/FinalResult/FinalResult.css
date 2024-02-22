@@ -1,0 +1,31 @@
+.final-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    top: 50%;
+    bottom: 40%;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+.final-result.win {
+    background-color: #4caf50;
+
+}
+
+.final-result.loss {
+    background-color: #bb5048;
+
+}
+
+.final-result h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+}

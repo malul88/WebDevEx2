@@ -3,34 +3,35 @@ import { useNavigate } from "react-router-dom";
 import { BattleOverview } from "../BattleOverview/BattleOverview";
 import BattlePokeMoves from "../BattlePokeMoves/BattlePokeMoves";
 import UserContext from "../../modules/UserDataContext";
-import User from "../../modules/User";
 import Pokemon from "../../modules/Pokemon";
-import { set } from "firebase/database";
 import ApiClient from "../../modules/ClientApi";
 import { Move } from "../../modules/Pokemon";
 import { BattleResults } from "../BattleResults/BattleResults";
+import { FinalResult } from "../FinalResult/FinalResult";
+import { set } from "firebase/database";
 // import { useNavigate } from "react-router-dom";
 // import UserDataContext from "../../modules/UserDataContext";
-// import Pokemon from "../../modules/Pokemon";
 
 
 const BattlePage: React.FC = () => {
     const [stage, setStage] = useState<number>(1);
     const { user } = useContext(UserContext);
+    const [battlePlayed, setBattlePlayed] = useState<number>(0);
+    const [battleWon, setBattleWon] = useState<number>(0);
     const [userPokemons, setUserPokemons] = useState<Pokemon[] | null >(null);
     const [userSelectedPokes, setUserSelectedPokes] = useState<Pokemon[]>([]);
     const [opponentSelectedPokes, setOpponentSelectedPokes] = useState<Pokemon[]>([]);
     const [currUserPoke, setCurrUserPoke] = useState<Pokemon | null>(null);
     const [currOpponentPoke, setCurrOpponentPoke] = useState<Pokemon | null>(null);
-    const [battleOver, setBattleOver] = useState<boolean>(false);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [userTF, setUserTF] = useState<number | null>(1);
     const [opponentTF, setOpponentTF] = useState<number | null>(1);
-    const [opponentPokemons, setOpponentPokemons] = useState<Pokemon[] | null>(Pokemon.loadPokemons("opponentPokemons"));
-    const navigate = useNavigate();
+    const [opponentPokemons] = useState<Pokemon[] | null>(Pokemon.loadPokemons("opponentPokemons"));
     const [userSelectedMove, setUserSelectedMove] = useState<Move | null>(null);
     const [opponentSelectedMove, setOpponentSelectedMove] = useState<Move | null>(null);
     const [randomOpponentMoves, setRandomOpponentMoves] = useState<Move[]>([]);
+    const [isWinner, setIsWinner] = useState<boolean>(false);
+    const navigate = useNavigate();
     //const [battleResult, setBattleResult] = useState<number | null>(null);
     
     const getRandomMoves = (moves: Move[] | undefined, count: number ): Move[] => {
@@ -94,16 +95,71 @@ const BattlePage: React.FC = () => {
         const opponentMove = getRandomMoves(randomOpponentMoves, 1)[0];
         handleOpponentMoveSelection(opponentMove);
         // sleep 6 seconds
-    //     setTimeout(() => {
-    //         const oppTotoalDamage = calculateTotalPower(opponentMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF);
-    //         const userTotalDamage = calculateTotalPower(move.power, currUserPoke?.attack, currOpponentPoke?.defense, userTF);
-    //         const won = userTotalDamage > oppTotoalDamage;
-    //         // update user and its pokemons wins and losses
-    //         // if all 3 pokemons are selected then update the user and navigate to home
-    //         // else navigate to battle
-
-    // }, 6000);
+        setTimeout(() => {
+            if (userTF === null || opponentTF === null || currUserPoke === null || currOpponentPoke === null) {
+                console.log('userTF or opponentTF or currUserPoke or currOpponentPoke is null');
+                throw new Error('userTF or opponentTF or currUserPoke or currOpponentPoke is null');
+            }
+            const oppTotoalDamage = calculateTotalPower(opponentMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF);
+            const userTotalDamage = calculateTotalPower(move.power, currUserPoke?.attack, currOpponentPoke?.defense, userTF);
+            const won = userTotalDamage > oppTotoalDamage;
+            if (won) {
+                setBattlePlayed(battlePlayed + 1);
+                setBattleWon(battleWon + 1);
+                user?.addPokeemonWin(currUserPoke?.name);
+            } else {
+                setBattlePlayed(battlePlayed + 1);
+                user?.addPokeemonLoss(currUserPoke?.name);
+            }
+    }, 7000);
     }
+    
+    useEffect(() => {
+        console.log(`battleWon: ${battleWon}`);
+        console.log(`battlePlayed: ${battlePlayed}`);
+        if (battlePlayed === 3) {
+            if (battleWon > 1) {
+                user?.addWin();
+                user?.saveUserData();
+                setIsWinner(true);
+            } else {
+                user?.addLoss();
+                user?.saveUserData();
+                setIsWinner(false);
+            }
+            setStage(3);
+            //sleep 3 seconds
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+            
+        } else if (battlePlayed === 2 && battleWon === 2) {
+            user?.addWin();
+            user?.saveUserData();
+            setIsWinner(true);
+            setStage(3);
+            //sleep 3 seconds
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+        } else if (battlePlayed === 2 && battleWon === 0) {
+            user?.addLoss();
+            user?.saveUserData();
+            setIsWinner(false);
+            setStage(3);
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+        } else {
+            setStage(1);
+            setCurrOpponentPoke(null);
+            setCurrUserPoke(null);
+            setUserSelectedMove(null);
+            setOpponentSelectedMove(null);
+        }
+
+    }, [battlePlayed]);
+
 
     
     const handleOpponentMoveSelection = (move: Move) => {
@@ -133,6 +189,11 @@ const BattlePage: React.FC = () => {
                 )}
                 <BattlePokeMoves pokemon={currUserPoke} onMoveSelected={handleUserMoveSelection} selectedMoves={getRandomMoves(currUserPoke?.moves, 4)} isOpponent={false}/> 
             </div>
+        )
+    } else if (stage === 3) {
+        // dispaly final results results
+        return (
+            <FinalResult isWinner={isWinner} />
         )
     }
 

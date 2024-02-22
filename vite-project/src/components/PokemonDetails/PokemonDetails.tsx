@@ -10,11 +10,10 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
   return (
     <div className='poke-details'>
         <div>
-            <h4>{pokemon.name}</h4>
+            <h4 style={{ textDecoration: 'underline' }}>{pokemon.name}</h4>
             <p>Type: {pokemon.type}</p>
             <p>Height: {pokemon.height}</p>
             <p>Weight: {pokemon.weight}</p>
-            <p>Stats:</p>
             <p>Hp: {pokemon.hp}</p>
             <p>Attack: {pokemon.attack}</p>
             <p>Defense: {pokemon.defense}</p>
@@ -23,6 +22,7 @@ const PokemonDetails: React.FC<PokemonDetailsProps> = ({ pokemon }) => {
             <p>SpecialDefense: {pokemon.specialDefense}</p>
         </div>
         <div className='win-loss'>
+            <h4 style={{ textDecoration: 'underline' }}>stats</h4>
             <p>Wins: {pokemon.wins}</p>
             <p>Losses: {pokemon.losses}</p>
             <p>{pokemon.getWinLossRatio()} % Win Rate</p>

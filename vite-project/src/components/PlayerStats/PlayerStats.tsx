@@ -17,7 +17,7 @@ export const PLayerStats: React.FC<PLayerStatsProps> = ({ user }) => {
     return totalGames > 0 ? (
         <div className="user-stats">
             <h4>Player Stats</h4>
-            <p>you won {wins} out of {totalGames} battles {user.losses !== 0 ? (wins / totalGames) * 100 : (user.wins > 0 ? 100 : 0)}%</p>
+            <p>you won {wins} out of {totalGames} battles {user.losses !== 0 ? ((wins / totalGames) * 100).toFixed(1) : (user.wins > 0 ? 100 : 0)}%</p>
         </div>
     ) : 
     (
