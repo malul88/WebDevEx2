@@ -27,6 +27,7 @@ const BattlePage: React.FC = () => {
     const [userSelectedMove, setUserSelectedMove] = useState<Move | null>(null);
     const [opponentSelectedMove, setOpponentSelectedMove] = useState<Move | null>(null);
     const [randomOpponentMoves, setRandomOpponentMoves] = useState<Move[]>([]);
+    const [randomUserMoves, setRandomUserMoves] = useState<Move[]>([]);
     const [isWinner, setIsWinner] = useState<boolean>(false);
     const navigate = useNavigate();
     //const [battleResult, setBattleResult] = useState<number | null>(null);
@@ -44,6 +45,19 @@ const BattlePage: React.FC = () => {
         if (attack === undefined || oppDefense === undefined)
             return 0;
         return (power + attack) * tf - oppDefense;
+    };
+
+    //a function to update moves power asynchronously
+    const updateMovesPower = async (moves: Move[], pokemon: Pokemon) => {
+        return await Promise.all(moves.map(async (move: Move) => {
+        if (move.power < 0) {
+            const movePower = await ApiClient.getInstance().getMovePower(move);
+            const power = movePower ? movePower : 0;
+            pokemon?.updateMovePower(move.name, power);
+            return { ...move, power: power};
+        }
+        return move;
+        }));
     };
 
     const handlePokemonClick = async (pokemon: Pokemon) => {
@@ -68,7 +82,9 @@ const BattlePage: React.FC = () => {
             setCurrOpponentPoke(opponentPoke);
             setUserTF(await ApiClient.getInstance().getTF(pokemon.type, opponentPoke.type));
             setOpponentTF(await ApiClient.getInstance().getTF(opponentPoke.type, pokemon.type));
-            setRandomOpponentMoves(getRandomMoves(opponentPoke.moves, 4));
+            setRandomOpponentMoves(await updateMovesPower(getRandomMoves(opponentPoke.moves, 4), opponentPoke));
+            setRandomUserMoves(await updateMovesPower(getRandomMoves(pokemon.moves, 4), pokemon));
+            console.log(`opponent after power: ${opponentPoke.moves}`);
         }
         else {
             console.log('opponent pokemons not loaded');
@@ -191,7 +207,7 @@ const BattlePage: React.FC = () => {
                 {opponentSelectedMove && userSelectedMove && userTF && opponentTF && (
                     <BattleResults opponentSelectedMove={opponentSelectedMove} userSelectedMove={userSelectedMove} opponentTotalDamage={calculateTotalPower(opponentSelectedMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF)} userTotalDamage={calculateTotalPower(userSelectedMove.power, currUserPoke?.attack, currOpponentPoke?.defense, userTF)} />
                 )}
-                <BattlePokeMoves pokemon={currUserPoke} onMoveSelected={handleUserMoveSelection} selectedMoves={getRandomMoves(currUserPoke?.moves, 4)} isOpponent={false} />
+                <BattlePokeMoves pokemon={currUserPoke} onMoveSelected={handleUserMoveSelection} selectedMoves={randomUserMoves} isOpponent={false} />
             </div>
         )
     } else if (stage === 3) {

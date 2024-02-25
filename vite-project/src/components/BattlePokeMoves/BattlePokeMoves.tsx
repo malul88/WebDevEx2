@@ -42,7 +42,7 @@ const BattlePokeMoves: React.FC<BattlePokeMovesProps> = ({ pokemon, selectedMove
                                 key={move.name}
                                 onClick={() => !isOpponent && handleMoveSelection(move)}
                                 disabled={isOpponent || selectedMove !== null}
-                                style={{ marginRight: '10px' }}
+                                style={{ marginRight: '10px', color: 'white' }}
                             >
                                 {move.name} ({move.power})
                             </button>

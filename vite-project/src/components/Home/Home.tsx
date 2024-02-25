@@ -28,6 +28,7 @@ const HomePage: React.FC = () => {
       console.log('user exists');
       setLoading(false);
       setPokemons(user.pokemons);
+      console.log(`user.pokemons: ${user.pokemons}`);
     }
   }
     , [user, pokemons]);

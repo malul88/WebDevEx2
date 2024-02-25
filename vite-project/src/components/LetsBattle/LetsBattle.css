@@ -5,10 +5,12 @@
     transform: translateX(-50%);
     font-size: 1em;
     font-weight: 500;
+    color: 'white';
     font-family: inherit;
     cursor: pointer;
     transition: border-color 0.25s;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 20px;
+    
 }

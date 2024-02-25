@@ -79,6 +79,13 @@ class Pokemon {
         this.losses++;
     }
 
+    updateMovePower(moveName: string, power: number) {
+        const move = this.moves.find((move) => move.name === moveName);
+        if (move) {
+            move.power = power;
+        }
+    }
+
     static savePokemons(name :string, pokemons: Pokemon[]) {
         const pokemons_json = pokemons.map((pokemon) => pokemon.toJson());
         localStorage.setItem(name, JSON.stringify(pokemons_json));

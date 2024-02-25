@@ -81,6 +81,22 @@ class ApiClient {
         return null;
       }
     }
+
+    async getMovePower(move: any) {
+      try{
+        const response = await fetch(`${this.baseURL}move/${move.name}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.power;
+      }
+      catch(error){
+        console.error('Error fetching move power data')
+        console.error(error);
+        return null;
+      }
+    }
   }
   
   export default ApiClient;

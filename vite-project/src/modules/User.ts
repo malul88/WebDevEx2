@@ -9,40 +9,6 @@ type UserInterface = {
     opponentPokemons: Pokemon[];
     };
 
-//the power of a move is not stored in the pokemon object, but in the move object
-//so we need diffrent API calls to get the power of a move
-async function getPowerForMove(moveName: string): Promise<number> {
-  const response = await fetch(`https://pokeapi.co/api/v2/move/${moveName}`);
-  const moveData = await response.json();
-  if (moveData.power === null) {
-    return 0;
-  }
-  return moveData.power;
-}
-
-async function createMovesArray(movesNames: string[]): Promise<Move[]> {
-  const movesPromises = movesNames.map(async name => {
-    const power = await getPowerForMove(name);
-    return { name, power };
-  });
-
-  return Promise.all(movesPromises);
-}
-
-function getRandomMoves(moves: any[], count: number = 4): string[] {
-  // If there are less than 4 moves, return them all
-  if (moves.length <= count) {
-    return moves.map(move => move.move.name);
-  }
-
-  // Shuffle the array
-  const shuffled = moves.sort(() => 0.5 - Math.random());
-
-  // Get the first 4 elements
-  return shuffled.slice(0, count).map(move => move.move.name);;
-  
-}
-
 // User class that implements the UserInterface
 class User implements UserInterface{
   wins: number = 0;
@@ -87,12 +53,11 @@ class User implements UserInterface{
           }
         }
 
-      //const randomMoves = getRandomMoves(pokemon.moves);
-      //console.log("random moves: ", randomMoves);
-      //const movesArray = await createMovesArray(randomMoves);
-      console.log("movesArray: ", pokemon.moves); 
+
+      //console.log("movesArray: ", pokemon.moves); 
       const movesNames: Move[] = pokemon.moves.map((move: any) => ({name: move.move.name,
-                                                                   power: 0})); 
+                                                                   power: -1})); 
+      console.log("movesNames: ", movesNames);
       return new Pokemon(
           pokemon.name,
           pokemon.id,
