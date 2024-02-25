@@ -5,23 +5,17 @@
     justify-content: center;
     border-radius: 10px;
     padding: 5px;
-    margin: 5px;
-    cursor: pointer;
+    margin: 20px;
+    cursor: default;
     transition: 0.3s;
-    display: flex;
-    align-items: center;
-    width: 150px;
-}
-
-.selected-poke:hover{
+    width: 15%;
     transition: 0.3s;
-    box-shadow: 0 0 10px rgba(184, 181, 181, 0.1);
+    box-shadow: 0 0 15px rgba(184, 181, 181, 0.1);
     border-color: #646cff;
 }
 
+
 .selected-poke img{
-    width: 50px;
-    height: 50px;
     border-radius: 50%;
     margin-right: 10px;
     max-width: 100%;
@@ -34,8 +28,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    margin: 10px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin: 20px;
     min-width: 40%;
 }

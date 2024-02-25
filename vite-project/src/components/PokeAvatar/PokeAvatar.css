@@ -7,12 +7,41 @@
     max-height: 100%;
 }
 
+.poke-avatar-disabled {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
+    opacity: 0.5;
+    filter: grayscale(90%);
+
+}
+
+.poke-avatar-disabled img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    max-width: 80%;
+    max-height: 80%;
+    margin-bottom: 20px;
+    border: 3px;
+}
+
 .poke-avatar img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    max-width: 80%;
+    max-height: 80%;
     margin-bottom: 20px;
     border: 3px;
+}
+
+.poke-avatar img:hover {
+    box-shadow: 0 0 10px rgba(184, 181, 181, 0.1);
+    transition: box-shadow 0.25s;
 }
 
 /* add shadow on hover */
@@ -21,6 +50,13 @@
     transition: box-shadow 0.25s;
 
 }
+
+.poke-avatar img:hover:focus {
+    box-shadow: 0 0 10px rgba(184, 181, 181, 0.1);
+    transition: box-shadow 0.25s;
+}
+
+
 
 /* remain shadow on click */
 .poke-avatar img:focus {
@@ -32,4 +68,3 @@
     box-shadow: 0 0 10px rgba(184, 181, 181, 0.1);
     transition: box-shadow 0.25s;
 }
-

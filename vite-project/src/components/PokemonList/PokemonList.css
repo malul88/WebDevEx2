@@ -1,27 +1,26 @@
 .left-column {
-    position: absolute;
-    left: 0;
-    top: 4%;
-    margin-left: 10%; 
-    width: 12%;
-    height: 70%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    border-color: darkgrey;
-    border: 2px solid darkgrey;
-    box-shadow: 0 0 10px rgba(15, 15, 15, 0.1);
-    transition: border-color 0.25s;
-    padding: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    margin-left: 5%; 
-    
-  }
+  position: absolute;
+  left: 0;
+  top: 4%;
+  margin-left: 10%; 
+  width: 12%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  border-right: 2px solid darkgrey; /* Only left side border */
+  box-shadow: 0 0 10px rgba(15, 15, 15, 0.1);
+  transition: border-color 0.25s;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 5%; 
+  overflow: hidden;
+}
 
-  .left-column:hover {
-    border-color: #646cff;
-  }
+.left-column:hover {
+  border-left-color: #646cff; /* Change left side border color on hover */
+}

@@ -29,9 +29,15 @@ const BattlePage: React.FC = () => {
     const [randomOpponentMoves, setRandomOpponentMoves] = useState<Move[]>([]);
     const [randomUserMoves, setRandomUserMoves] = useState<Move[]>([]);
     const [isWinner, setIsWinner] = useState<boolean>(false);
-    const navigate = useNavigate();
-    //const [battleResult, setBattleResult] = useState<number | null>(null);
 
+    const navigate = useNavigate();
+
+    /**
+     * Gets a random selection of moves from the given moves array.
+     * @param moves - The moves array.
+     * @param count - The number of moves to select.
+     * @returns The randomly selected moves.
+     */
     const getRandomMoves = (moves: Move[] | undefined, count: number): Move[] => {
         // Shuffle moves array and select the first 4 moves
         if (!moves) {
@@ -42,13 +48,15 @@ const BattlePage: React.FC = () => {
     };
 
     const calculateTotalPower = (power: number, attack: number | undefined, oppDefense: number | undefined, tf: number): number => {
+        // according to the formula: (power + attack) * tf - oppDefense
         if (attack === undefined || oppDefense === undefined)
             return 0;
         return (power + attack) * tf - oppDefense;
     };
 
-    //a function to update moves power asynchronously
+    
     const updateMovesPower = async (moves: Move[], pokemon: Pokemon) => {
+        // A function to update moves power asynchronously
         return await Promise.all(moves.map(async (move: Move) => {
         if (move.power < 0) {
             const movePower = await ApiClient.getInstance().getMovePower(move);
@@ -61,6 +69,11 @@ const BattlePage: React.FC = () => {
     };
 
     const handlePokemonClick = async (pokemon: Pokemon) => {
+        /* 
+        Select user and opponent pokemon
+        Calculate type effectiveness
+        Randomly select moves for the user and the opponent
+        */
         if (userSelectedPokes.length < 3) {
             setUserSelectedPokes([...userSelectedPokes, pokemon]);
         }
@@ -91,16 +104,20 @@ const BattlePage: React.FC = () => {
             throw new Error('opponent pokemons not loaded');
         }
         setStage(2);
-
     }
 
     useEffect(() => {
+        // Load user pokemons
         if (user) {
             setUserPokemons(user.pokemons);
             setIsLoaded(true);
         }
     }, [user]);
 
+    /**
+     * Handles the user move selection.
+     * @param move - The selected move.
+     */
     const handleUserMoveSelection = (move: Move) => {
         setUserSelectedMove(move);
 
@@ -178,16 +195,16 @@ const BattlePage: React.FC = () => {
 
     }, [battlePlayed]);
 
-
-
+    /**
+     * Handles the opponent move selection.
+     * @param move - The selected move.
+     */
     const handleOpponentMoveSelection = (move: Move) => {
-
         setOpponentSelectedMove(move);
 
         // Calculate and set battle result
         //setBattleResult(userMovePower + (opponentMove ? opponentMove.power : 0));
     };
-
 
     if (stage === 1 && isLoaded && userPokemons && opponentPokemons) {
         // display pokemon selection
@@ -201,23 +218,49 @@ const BattlePage: React.FC = () => {
         // display Selected pokemon and moves
         return (
             <div>
-                <h1>Battle</h1>
-                <BattlePokeMoves pokemon={currOpponentPoke} onMoveSelected={handleOpponentMoveSelection} selectedMoves={randomOpponentMoves} isOpponent={true} />
+                <h2>Battle</h2>
+                <BattlePokeMoves
+                    pokemon={currOpponentPoke}
+                    onMoveSelected={handleOpponentMoveSelection}
+                    selectedMoves={randomOpponentMoves}
+                    isOpponent={true}
+                />
 
-                {opponentSelectedMove && userSelectedMove && userTF && opponentTF && (
-                    <BattleResults opponentSelectedMove={opponentSelectedMove} userSelectedMove={userSelectedMove} opponentTotalDamage={calculateTotalPower(opponentSelectedMove.power, currOpponentPoke?.attack, currUserPoke?.defense, opponentTF)} userTotalDamage={calculateTotalPower(userSelectedMove.power, currUserPoke?.attack, currOpponentPoke?.defense, userTF)} />
+                {opponentSelectedMove && userSelectedMove && userTF && opponentTF ? (
+                    <BattleResults
+                        opponentSelectedMove={opponentSelectedMove}
+                        userSelectedMove={userSelectedMove}
+                        opponentTotalDamage={calculateTotalPower(
+                            opponentSelectedMove.power,
+                            currOpponentPoke?.attack,
+                            currUserPoke?.defense,
+                            opponentTF
+                        )}
+                        userTotalDamage={calculateTotalPower(
+                            userSelectedMove.power,
+                            currUserPoke?.attack,
+                            currOpponentPoke?.defense,
+                            userTF
+                        )}
+                    />
+                ) : (
+                    <div style={{ backgroundColor: 'transparent', width: '100%', height: '250px' }}></div>
                 )}
-                <BattlePokeMoves pokemon={currUserPoke} onMoveSelected={handleUserMoveSelection} selectedMoves={randomUserMoves} isOpponent={false} />
+
+                <BattlePokeMoves
+                    pokemon={currUserPoke}
+                    onMoveSelected={handleUserMoveSelection}
+                    selectedMoves={randomUserMoves}
+                    isOpponent={false}
+                />
             </div>
-        )
+        );
     } else if (stage === 3) {
         // dispaly final results results
         return (
             <FinalResult isWinner={isWinner} />
         )
     }
-
-
 }
 
 export default BattlePage;

@@ -20,7 +20,10 @@ const BattlePokeMoves: React.FC<BattlePokeMovesProps> = ({ pokemon, selectedMove
         setSelectedMove(move);
         onMoveSelected(move);
     };
-
+    console.log("selectedMoves");
+    selectedMoves?.forEach((move) => {
+        console.log(move);
+    });
     if (!pokemon || !selectedMoves) {
         return  <div> Loading ...</div>;
     }
@@ -42,7 +45,17 @@ const BattlePokeMoves: React.FC<BattlePokeMovesProps> = ({ pokemon, selectedMove
                                 key={move.name}
                                 onClick={() => !isOpponent && handleMoveSelection(move)}
                                 disabled={isOpponent || selectedMove !== null}
-                                style={{ marginRight: '10px', color: 'white' }}
+                                style={{
+                                    marginRight: '10px',
+                                    color: 'white',
+                                    ...(isOpponent && { // Only apply these styles for opponent moves
+                                        cursor: 'default',
+                                        pointerEvents: 'none',
+                                        background: 'transparent',
+                                        border: 'currentColor solid 1px',
+                                        outline: 'none',
+                                    }),
+                                }}
                             >
                                 {move.name} ({move.power})
                             </button>

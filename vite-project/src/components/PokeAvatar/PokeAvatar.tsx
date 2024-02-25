@@ -13,12 +13,11 @@ const PokeAvatar: React.FC<PokeAvatarProps> = ({ pokemon, handlePokemonClick, di
   console.log(`PokeAvatar: ${pokemon.name}`);
   if (disabled) {
     return (
-      <div className="poke-avatar">
+      <div className="poke-avatar-disabled">
         <p>{displayName ? pokemon.name : ""}</p>
         <img
           src={pokemon.imageUrl}
           alt={pokemon.name}
-          style={{ width: "90%", height: "90%", margin: "20px", cursor: "not-allowed" }}
         />
       </div>
     );

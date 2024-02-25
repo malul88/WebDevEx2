@@ -13,6 +13,9 @@ export const BattleResults: React.FC<BattleResultsProps> = ({ opponentSelectedMo
     const [showOpponentResults, setShowOpponentResults] = useState(false);
     const [showUserResults, setShowUserResults] = useState(false);
     const [showFinalResults, setShowFinalResults] = useState(false);
+    if (!opponentSelectedMove || !userSelectedMove) {
+        return null;
+    }
 
     useEffect(() => {
         const opponentDelay = 1000; // 1 second delay for opponent stats
@@ -54,6 +57,11 @@ export const BattleResults: React.FC<BattleResultsProps> = ({ opponentSelectedMo
                 </div>
                 <div className={`winner ${showFinalResults ? "show" : ""}`}>
                     <h2>{results}</h2>
+                    {userTotalDamage > opponentTotalDamage ? (
+                        <span role="img" aria-label="smiling emoji">😊</span>
+                    ) : (
+                        <span role="img" aria-label="sad emoji">😢</span>
+                    )}
                 </div>
         </div>
     );

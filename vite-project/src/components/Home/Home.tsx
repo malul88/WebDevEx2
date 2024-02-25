@@ -38,16 +38,13 @@ const HomePage: React.FC = () => {
 
   const handleLetsBattle = async () => {
     if (user) {
-      // get 3 random pokemons and store the, in local for opponent
+      // get 3 random pokemons and store in local storage
       const opponentPokemons = await User.get3RandomPokemon();
       user.opponentPokemons = opponentPokemons;
       Pokemon.savePokemons("opponentPokemons", opponentPokemons);
     }
     navigate('/battle');
   };
-
-  // console.log('userData');
-  // console.log(user);
 
   // Handle pokemon click
   // Set the selected pokemon to the clicked pokemon
