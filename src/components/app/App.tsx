@@ -1,6 +1,6 @@
 import './App.css'
 import  { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import BattlePage from '../BattlePage/BattlePage';
 import HomePage from '../Home/Home';
 import User from '../../modules/User';
@@ -38,7 +38,7 @@ function App() {
   // The user data is provided to the rest of the app using the UserContext.Provider
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <Router>
+      <Router basename='/'>
           <Routes>
             <Route path="/" element={<HomePage />}  />
             <Route path="/battle" element={<BattlePage />} />
