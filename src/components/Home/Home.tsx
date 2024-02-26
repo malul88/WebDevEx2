@@ -64,6 +64,7 @@ const HomePage: React.FC = () => {
       };
       resetUser();
       setLoading(false);
+      setSelectedPokemon(null);
     }
   }
 

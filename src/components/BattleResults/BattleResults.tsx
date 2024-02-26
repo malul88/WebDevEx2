@@ -39,21 +39,21 @@ export const BattleResults: React.FC<BattleResultsProps> = ({ opponentSelectedMo
             clearTimeout(finalResultsTimer);
         };
     }, []);
-    const results: string = userTotalDamage > opponentTotalDamage ? "You won!" : "You lost!";
+    const results: string = userTotalDamage >= opponentTotalDamage ? "You won!" : "You lost!";
 
     return (
         <div className="battle-results">
             <div className={`opponent-results ${showOpponentResults ? "show" : ""}`}>
                 <h4 style={{margin: "5px", fontWeight: "bold", fontSize: "20px" }}>Opponent's move</h4>
                 <p style={{ margin: "5px" }}>{opponentSelectedMove?.name}</p>
-                <p style={{ margin: "5px" }}>Damage: {opponentTotalDamage}</p>
+                <p style={{ margin: "5px" }}>Total power: {opponentTotalDamage}</p>
                 </div>
 
                 <div className={`user-results ${showUserResults ? "show" : ""}`}>
                     <p className="arrows"> VS </p>
                     <h4 style={{margin: "5px", fontWeight: "bold", fontSize: "20px" }}>Your move</h4>
                     <p style={{ margin: "5px" }}>{userSelectedMove?.name}</p>
-                    <p style={{ margin: "5px" }}>Damage: {userTotalDamage}</p>
+                    <p style={{ margin: "5px" }}>Total power: {userTotalDamage}</p>
                 </div>
                 <div className={`winner ${showFinalResults ? "show" : ""}`}>
                     <h2>{results}</h2>
